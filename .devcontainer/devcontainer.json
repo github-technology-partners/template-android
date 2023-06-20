@@ -18,37 +18,5 @@
   "forwardPorts": [
     8080,
     5005
-  ],
-  "postCreateCommand": "apt-get update && apt-get install -y curl unzip && apt-get clean",
-  "runArgs": [
-    "--cap-add=SYS_PTRACE",
-    "--security-opt",
-    "seccomp=unconfined"
-  ],
-  "workspaceMount": "source=${localWorkspaceFolder},target=/root/workspace,type=bind,consistency=cached",
-  "workspaceFolder": "/root/workspace",
-  "workspaceReloadConfig": {
-    "pattern": "**/*.java",
-    "ignore": [
-      "**/.git/**",
-      "**/.svn/**",
-      "**/.hg/**",
-      "**/CVS/**",
-      "**/.DS_Store/**"
-    ]
-  },
-  "postStartCommand": "curl -o /tmp/sdk-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip && \
-                       unzip -d /opt/android-sdk /tmp/sdk-tools.zip && \
-                       rm /tmp/sdk-tools.zip && \
-                       echo 'y' | /opt/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'platform-tools' && \
-                       echo 'y' | /opt/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'build-tools;30.0.2' && \
-                       echo 'y' | /opt/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'platforms;android-30' && \
-                       echo 'y' | /opt/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'extras;google;m2repository' && \
-                       echo 'y' | /opt/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'extras;android;m2repository' && \
-                       echo 'y' | /opt/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'patcher;v4' && \
-                       echo 'y' | /opt/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'cmdline-tools;latest' && \
-                       echo 'y' | /opt/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'ndk;22.0.7026061' && \
-                       echo 'y' | /opt/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'cmake;3.10.2.4988404'",
-  "postAttachCommand": "apt-get install -y openssh-server && \
-                        echo 'root:Docker!' | chpasswd && \
-                        sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin
+  ]
+  }
