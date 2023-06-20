@@ -1,0 +1,31 @@
+{
+  "name": "Android Codespace",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "VARIANT": "bionic",
+      "ANDROID_SDK_URL": "https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip",
+      "ANDROID_SDK_SHA256": "ef9d85a9b90bd2458100bd889f91dca363a1d0a0148d9d7593a6d573be53d855",
+      "ANDROID_BUILD_TOOLS_VERSION": "31.0.0",
+      "ANDROID_PLATFORM_VERSION": "android-31",
+      "GRADLE_VERSION": "7.1",
+      "EMULATOR_PACKAGE": "system-images;android-31;google_apis;x86"
+    }
+  },
+  "remoteUser": "vscode",
+  "extensions": [
+    "ms-vscode.java-pack",
+    "redhat.java",
+    "wakatime.vscode-wakatime",
+    "googlecloudtools.cloudcode",
+    "vscjava.vscode-java-debug",
+    "vscjava.vscode-java-dependency",
+    "vscjava.vscode-java-pack",
+    "vscjava.vscode-java-test",
+    "vscjava.vscode-maven"
+  ],
+  "settings": {
+    "java.home": "/usr/lib/jvm/java-11-openjdk-amd64",
+    "java.configuration.maven.userSettings": "/root/.m2/settings.xml"
+  }
+}
