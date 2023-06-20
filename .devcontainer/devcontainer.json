@@ -1,31 +1,54 @@
 {
-  "name": "Android Codespace",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "args": {
-      "VARIANT": "bionic",
-      "ANDROID_SDK_URL": "https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip",
-      "ANDROID_SDK_SHA256": "ef9d85a9b90bd2458100bd889f91dca363a1d0a0148d9d7593a6d573be53d855",
-      "ANDROID_BUILD_TOOLS_VERSION": "31.0.0",
-      "ANDROID_PLATFORM_VERSION": "android-31",
-      "GRADLE_VERSION": "7.1",
-      "EMULATOR_PACKAGE": "system-images;android-31;google_apis;x86"
-    }
-  },
-  "remoteUser": "vscode",
+  "name": "Android SDK Codespace",
+  "image": "openjdk:11-jdk-slim",
   "extensions": [
-    "ms-vscode.java-pack",
-    "redhat.java",
-    "wakatime.vscode-wakatime",
-    "googlecloudtools.cloudcode",
-    "vscjava.vscode-java-debug",
-    "vscjava.vscode-java-dependency",
+    "gabrielbb.vscode-lombok",
+    "visualstudioexptteam.vscodeintellicode",
     "vscjava.vscode-java-pack",
+    "redhat.java",
+    "vscjava.vscode-java-dependency",
     "vscjava.vscode-java-test",
-    "vscjava.vscode-maven"
+    "vscjava.vscode-maven",
+    "humao.rest-client"
   ],
   "settings": {
     "java.home": "/usr/lib/jvm/java-11-openjdk-amd64",
     "java.configuration.maven.userSettings": "/root/.m2/settings.xml"
-  }
-}
+  },
+  "forwardPorts": [
+    8080,
+    5005
+  ],
+  "postCreateCommand": "apt-get update && apt-get install -y curl unzip && apt-get clean",
+  "runArgs": [
+    "--cap-add=SYS_PTRACE",
+    "--security-opt",
+    "seccomp=unconfined"
+  ],
+  "workspaceMount": "source=${localWorkspaceFolder},target=/root/workspace,type=bind,consistency=cached",
+  "workspaceFolder": "/root/workspace",
+  "workspaceReloadConfig": {
+    "pattern": "**/*.java",
+    "ignore": [
+      "**/.git/**",
+      "**/.svn/**",
+      "**/.hg/**",
+      "**/CVS/**",
+      "**/.DS_Store/**"
+    ]
+  },
+  "postStartCommand": "curl -o /tmp/sdk-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip && \
+                       unzip -d /opt/android-sdk /tmp/sdk-tools.zip && \
+                       rm /tmp/sdk-tools.zip && \
+                       echo 'y' | /opt/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'platform-tools' && \
+                       echo 'y' | /opt/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'build-tools;30.0.2' && \
+                       echo 'y' | /opt/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'platforms;android-30' && \
+                       echo 'y' | /opt/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'extras;google;m2repository' && \
+                       echo 'y' | /opt/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'extras;android;m2repository' && \
+                       echo 'y' | /opt/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'patcher;v4' && \
+                       echo 'y' | /opt/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'cmdline-tools;latest' && \
+                       echo 'y' | /opt/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'ndk;22.0.7026061' && \
+                       echo 'y' | /opt/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=/opt/android-sdk --install 'cmake;3.10.2.4988404'",
+  "postAttachCommand": "apt-get install -y openssh-server && \
+                        echo 'root:Docker!' | chpasswd && \
+                        sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin
