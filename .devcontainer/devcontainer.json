@@ -24,5 +24,16 @@
     "--cap-add=SYS_PTRACE",
     "--security-opt",
     "seccomp=unconfined"
-    ]
+    ],
+    "workspaceMount": "source=${localWorkspaceFolder},target=/root/workspace,type=bind,consistency=cached",
+    "workspaceFolder": "/root/workspace",
+    "workspaceReloadConfig": {
+      "pattern": "**/*.java",
+      "ignore": [
+        "**/.git/**",
+        "**/.svn/**",
+        "**/.hg/**",
+        "**/CVS/**",
+        "**/.DS_Store/**"
+      ]
   }
