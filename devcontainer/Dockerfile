@@ -61,5 +61,5 @@ COPY licenses /opt/licenses
 WORKDIR /opt/android-sdk-linux
 
 # Run the entrypoint script
-ENTRYPOINT ["/opt/tools/entrypoint.sh", "built-in"]
+ENTRYPOINT ["/opt/tools/startingpoint.sh", "built-in"]
 
